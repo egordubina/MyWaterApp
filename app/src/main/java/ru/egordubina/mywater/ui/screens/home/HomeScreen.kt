@@ -1,5 +1,7 @@
 package ru.egordubina.mywater.ui.screens.home
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -168,27 +170,46 @@ fun DailyProgress(dayValue: Int, currentValue: Int) {
         animationSpec = tween(750, easing = FastOutSlowInEasing),
         label = ""
     )
-    Box(contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(
-            progress = progress,
-            strokeWidth = 24.dp,
-            trackColor = MaterialTheme.colorScheme.primaryContainer,
-            strokeCap = StrokeCap.Round,
-            color = color,
-            modifier = Modifier
-                .padding(32.dp)
-                .fillMaxWidth()
-                .onGloballyPositioned { with(density) { height = it.size.width.toDp() } }
-                .height(height)
-        )
-        Text(
-            text = "$curValue%",
-            fontSize = 48.sp,
-            fontWeight = FontWeight.Black,
-            color = textColor,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+    val helpText = when (curValue) {
+        in 0..25 -> "Пей больше воды"
+        in 26..50 -> "Так держать! Продолжай пить воду"
+        in 51..75 -> "Почти успех! Больше воды!"
+        in 76..100 -> "Практически дневная норма! Осталось чуть-чуть"
+        else -> "Пей больше воды"
+    }
+    Column {
+        Box(contentAlignment = Alignment.Center) {
+            CircularProgressIndicator(
+                progress = progress,
+                strokeWidth = 24.dp,
+                trackColor = MaterialTheme.colorScheme.primaryContainer,
+                strokeCap = StrokeCap.Round,
+                color = color,
+                modifier = Modifier
+                    .padding(32.dp)
+                    .fillMaxWidth()
+                    .onGloballyPositioned { with(density) { height = it.size.width.toDp() } }
+                    .height(height)
+            )
+            Text(
+                text = "$curValue%",
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Black,
+                color = textColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        AnimatedVisibility(visible = curValue < 100) {
+            AnimatedContent(targetState = helpText, label = "",) {
+                Text(
+                    text = it,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
     }
 }
 
