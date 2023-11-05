@@ -84,6 +84,7 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
+                // Todo: функционал для выбора количества воды в сутки
                 Text(
                     text = "3000 Мл",
                     textAlign = TextAlign.Center,
@@ -123,8 +124,14 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
+                // Todo: функционал для выбора количества воды в стакане
+                val curWaterValue by animateIntAsState(
+                    targetValue = uiState.currentWaterValue,
+                    animationSpec = tween(750, easing = FastOutSlowInEasing),
+                    label = ""
+                )
                 Text(
-                    text = "250 Мл",
+                    text = "$curWaterValue Мл",
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
@@ -141,11 +148,12 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(text = "Добавить стакан")
+            Text(text = "Добавить стакан (250 мл)")
         }
     }
 }
 
+// Todo: функционал для показа статистики выпитой воды
 @Composable
 fun DailyProgress(dayValue: Int, currentValue: Int) {
     var height by remember { mutableStateOf(0.dp) }
@@ -201,12 +209,23 @@ fun DailyProgress(dayValue: Int, currentValue: Int) {
             )
         }
         AnimatedVisibility(visible = curValue < 100) {
-            AnimatedContent(targetState = helpText, label = "",) {
+            Column {
+                AnimatedContent(targetState = helpText, label = "") {
+                    Text(
+                        text = it,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
                 Text(
-                    text = it,
+                    text = "Ещё ${(dayValue - currentValue) / 250} стаканов",
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onBackground
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
                 )
             }
         }
