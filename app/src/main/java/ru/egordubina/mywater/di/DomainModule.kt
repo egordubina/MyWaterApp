@@ -4,15 +4,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import ru.egordubina.mywater.domain.repositories.DailyWaterRepository
-import ru.egordubina.mywater.domain.usecases.DailyWaterUseCase
-import ru.egordubina.mywater.domain.usecases.DailyWaterUseCaseImpl
+import ru.egordubina.mywater.domain.repositories.DailyRepository
+import ru.egordubina.mywater.domain.usecases.DailyUseCase
+import ru.egordubina.mywater.domain.usecases.DailyUseCaseImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
 class DomainModule {
 
     @Provides
-    fun provideDailyWaterUseCase(dailyWaterRepository: DailyWaterRepository): DailyWaterUseCase =
-        DailyWaterUseCaseImpl(dailyWaterRepository = dailyWaterRepository)
+    fun provideDailyWaterUseCase(dailyRepository: DailyRepository): DailyUseCase =
+        DailyUseCaseImpl(dailyRepository = dailyRepository)
 }

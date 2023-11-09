@@ -153,7 +153,11 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(text = "Добавить стакан (250 мл)")
+            Text(
+                text = "Добавить стакан (250 мл)",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(8.dp)
+            )
         }
     }
 }
@@ -163,7 +167,7 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
 fun DailyProgress(dayValue: Int, currentValue: Int) {
     var height by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
-    val progress by animateFloatAsState(
+    val dailyProgress by animateFloatAsState(
         targetValue = if (dayValue != 0) currentValue.toFloat() / dayValue.toFloat() else 0f,
         animationSpec = tween(750, easing = FastOutSlowInEasing),
         label = ""
@@ -173,7 +177,7 @@ fun DailyProgress(dayValue: Int, currentValue: Int) {
         animationSpec = tween(750, easing = FastOutSlowInEasing),
         label = ""
     )
-    val color by animateColorAsState(
+    val progressColor by animateColorAsState(
         targetValue = if (curValue >= 100) Color.Green else MaterialTheme.colorScheme.onPrimaryContainer,
         animationSpec = tween(750, easing = FastOutSlowInEasing),
         label = ""
@@ -193,11 +197,11 @@ fun DailyProgress(dayValue: Int, currentValue: Int) {
     Column {
         Box(contentAlignment = Alignment.Center) {
             CircularProgressIndicator(
-                progress = progress,
+                progress = dailyProgress,
                 strokeWidth = 24.dp,
                 trackColor = MaterialTheme.colorScheme.primaryContainer,
                 strokeCap = StrokeCap.Round,
-                color = color,
+                color = progressColor,
                 modifier = Modifier
                     .padding(32.dp)
                     .fillMaxWidth()

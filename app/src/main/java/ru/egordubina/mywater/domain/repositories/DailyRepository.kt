@@ -1,0 +1,9 @@
+package ru.egordubina.mywater.domain.repositories
+
+import kotlinx.coroutines.flow.Flow
+
+interface DailyRepository {
+    fun getDailyData(): Flow<Int>
+    fun getDailyCurrentData(): Flow<Int>
+    suspend fun updateDailyCurrentData(data: Int)
+}

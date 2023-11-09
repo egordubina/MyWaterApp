@@ -10,8 +10,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.egordubina.mywater.data.repositories.DailyWaterRepositoryImpl
-import ru.egordubina.mywater.domain.repositories.DailyWaterRepository
+import ru.egordubina.mywater.data.repositories.DailyRepositoryImpl
+import ru.egordubina.mywater.domain.repositories.DailyRepository
 import javax.inject.Singleton
 
 @Module
@@ -25,6 +25,6 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideDailyWaterRepository(dataStore: DataStore<Preferences>): DailyWaterRepository =
-        DailyWaterRepositoryImpl(dataStore = dataStore)
+    fun provideDailyWaterRepository(dataStore: DataStore<Preferences>): DailyRepository =
+        DailyRepositoryImpl(dataStore = dataStore)
 }

@@ -29,7 +29,9 @@ fun WaterNavigation(navController: NavHostController, modifier: Modifier) {
         composable(WaterDestination.HOME.name) {
             val viewModel = hiltViewModel<HomeViewModel>()
             val uiState = viewModel.uiState.collectAsState()
-            HomeScreen(uiState = uiState.value, onAddGlassClick = { })
+            HomeScreen(
+                uiState = uiState.value,
+                onAddGlassClick = { viewModel.updateCurrentData(data = uiState.value.currentWaterValue + 250) })
         }
         composable(WaterDestination.SETTINGS.name) {
             SettingsScreen()
