@@ -15,9 +15,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     init {
         _uiState.update {
-            it.copy(
-                dailyWaterValue = 3000,
-            )
+            it.copy(dailyWaterValue = 3000)
         }
     }
 

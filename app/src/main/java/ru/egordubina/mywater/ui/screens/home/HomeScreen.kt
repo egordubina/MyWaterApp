@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,9 +20,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +44,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import ru.egordubina.mywater.ui.navigation.WaterDestination
 import ru.egordubina.mywater.ui.theme.MyWaterTheme
 import ru.egordubina.mywater.ui.uistates.HomeUiState
 
@@ -50,7 +54,6 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
     ) {
@@ -242,5 +245,17 @@ fun HomeScreenPreview() {
                 currentWaterValue = 1500
             )
         ) {}
+    }
+}
+
+@Composable
+fun HomeScreenActions(navController: NavHostController) {
+    Row {
+        IconButton(onClick = { }) {
+            Icon(imageVector = Icons.Rounded.Share, contentDescription = null)
+        }
+        IconButton(onClick = { navController.navigate(WaterDestination.SETTINGS.name) }) {
+            Icon(imageVector = Icons.Rounded.Settings, contentDescription = null)
+        }
     }
 }

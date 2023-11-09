@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">My Water</string>
+    <string name="app_name">Моя вода</string>
+    <string name="label__settings">Настройки</string>
 </resources>

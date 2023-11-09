@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.0-alpha12"
+datastore-preferences = "1.0.0"
 hilt-android-gradle-plugin = "2.48.1"
 hilt-navigation-compose = "1.1.0"
 kotlin = "1.9.20"
@@ -11,9 +12,15 @@ lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.8.0"
 compose-bom = "2023.10.01"
 navigation = "2.7.5"
+room-runtime = "2.6.0"
+room-compiler = "2.6.0"
 
 [libraries]
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-runtime" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-compiler" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-compiler" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android-gradle-plugin" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android-gradle-plugin" }
