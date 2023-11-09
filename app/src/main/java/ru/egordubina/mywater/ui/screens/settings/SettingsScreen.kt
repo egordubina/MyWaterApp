@@ -13,6 +13,5 @@ fun SettingsScreen() {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
-
     }
 }

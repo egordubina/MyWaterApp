@@ -1,12 +1,9 @@
 package ru.egordubina.mywater.ui.navigation
 
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,7 +14,7 @@ import ru.egordubina.mywater.ui.screens.home.HomeScreenActions
 import ru.egordubina.mywater.ui.screens.settings.SettingsScreen
 import ru.egordubina.mywater.ui.viewmodels.HomeViewModel
 
-enum class WaterDestination(@StringRes val title: Int?/*, actions: List<TopAppBarAction>*/) {
+enum class WaterDestination(@StringRes val title: Int?) {
     HOME(title = null),
     SETTINGS(title = R.string.label__settings)
 }
@@ -32,7 +29,7 @@ fun WaterNavigation(navController: NavHostController, modifier: Modifier) {
         composable(WaterDestination.HOME.name) {
             val viewModel = hiltViewModel<HomeViewModel>()
             val uiState = viewModel.uiState.collectAsState()
-            HomeScreen(uiState = uiState.value, onAddGlassClick = { viewModel.updateCurrent() })
+            HomeScreen(uiState = uiState.value, onAddGlassClick = { })
         }
         composable(WaterDestination.SETTINGS.name) {
             SettingsScreen()
@@ -40,7 +37,10 @@ fun WaterNavigation(navController: NavHostController, modifier: Modifier) {
     }
 }
 
+/**
+ *  Дополнтельные действия (actions row) для каждого экрана
+ */
 val screenActions: Map<WaterDestination, @Composable (NavHostController) -> Unit> = mapOf(
     // Под it подразумевается navController: NavHostController
-    WaterDestination.HOME to { HomeScreenActions(it) }
+    WaterDestination.HOME to { HomeScreenActions(navController = it) }
 )

@@ -1,5 +1,6 @@
 package ru.egordubina.mywater.ui.screens.home
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -89,7 +91,7 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
                 }
                 // Todo: функционал для выбора количества воды в сутки
                 Text(
-                    text = "3000 Мл",
+                    text = "${uiState.dailyWaterValue} Мл",
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
@@ -162,12 +164,12 @@ fun DailyProgress(dayValue: Int, currentValue: Int) {
     var height by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
     val progress by animateFloatAsState(
-        targetValue = currentValue.toFloat() / dayValue.toFloat(),
+        targetValue = if (dayValue != 0) currentValue.toFloat() / dayValue.toFloat() else 0f,
         animationSpec = tween(750, easing = FastOutSlowInEasing),
         label = ""
     )
     val curValue by animateIntAsState(
-        targetValue = (currentValue.toFloat() / dayValue.toFloat() * 100).toInt(),
+        targetValue = if (dayValue != 0) (currentValue.toFloat() / dayValue.toFloat() * 100).toInt() else 0,
         animationSpec = tween(750, easing = FastOutSlowInEasing),
         label = ""
     )
@@ -250,8 +252,11 @@ fun HomeScreenPreview() {
 
 @Composable
 fun HomeScreenActions(navController: NavHostController) {
+    val context = LocalContext.current
     Row {
-        IconButton(onClick = { }) {
+        IconButton(onClick = {
+            Toast.makeText(context, "Пока что не работает", Toast.LENGTH_SHORT).show()
+        }) {
             Icon(imageVector = Icons.Rounded.Share, contentDescription = null)
         }
         IconButton(onClick = { navController.navigate(WaterDestination.SETTINGS.name) }) {

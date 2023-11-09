@@ -1,30 +1,46 @@
 package ru.egordubina.mywater.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import ru.egordubina.mywater.domain.usecases.DailyWaterUseCase
 import ru.egordubina.mywater.ui.uistates.HomeUiState
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
-    private var _uiState = MutableStateFlow(HomeUiState())
-    val uiState = _uiState.asStateFlow()
+class HomeViewModel @Inject constructor(
+    private val dailyWaterUseCase: DailyWaterUseCase
+) : ViewModel() {
+//    private var _uiState = MutableStateFlow(HomeUiState())
+//    val uiState = _uiState.asStateFlow()
 
-    init {
-        _uiState.update {
-            it.copy(dailyWaterValue = 3000)
-        }
-    }
+    val uiState = combine(
+        dailyWaterUseCase.getDailyWaterValue()
+    ) {
+        HomeUiState(dailyWaterValue = it[0])
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = HomeUiState()
+    )
 
-    fun updateCurrent() {
-        _uiState.update {
-            it.copy(
-                dailyWaterValue = 3000,
-                currentWaterValue = it.currentWaterValue + 250
-            )
-        }
-    }
+//    init {
+//        viewModelScope.launch {
+//            val result = dailyWaterUseCase.getDailyWaterValue()
+//            result.collect { res ->
+//                _uiState.update {
+//                    it.copy(dailyWaterValue = res)
+//                }
+//            }
+//        }
+//    }
+//
+//    fun updateCurrent() {
+//        _uiState.update {
+//            it.copy(currentWaterValue = it.currentWaterValue + 250)
+//        }
+//    }
 }
