@@ -104,7 +104,13 @@ fun SettingsScreen(uiState: SettingsUiState, changeGlassVolume: (Int) -> Unit) {
             text = {
                 OutlinedTextField(
                     value = textValue.toString(),
-                    onValueChange = { textValue = try { it.toInt() } catch (_: Exception) { 0 } },
+                    onValueChange = {
+                        textValue = try {
+                            it.toInt()
+                        } catch (_: Exception) {
+                            0
+                        }
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
