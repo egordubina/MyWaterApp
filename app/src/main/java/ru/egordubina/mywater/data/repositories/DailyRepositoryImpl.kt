@@ -20,9 +20,19 @@ class DailyRepositoryImpl @Inject constructor(
         it[intPreferencesKey("WATER DAILY CURRENT")] ?: 0
     }
 
+    override fun getGlassVolume(): Flow<Int> = dataStore.data.map {
+        it[intPreferencesKey("GLASS VOLUME")] ?: 250
+    }
+
     override suspend fun updateDailyCurrentData(data: Int) {
         dataStore.edit {
             it[intPreferencesKey("WATER DAILY CURRENT")] = data
+        }
+    }
+
+    override suspend fun updateGlassVolume(glassVolume: Int) {
+        dataStore.edit {
+            it[intPreferencesKey("GLASS VOLUME")] = glassVolume
         }
     }
 }

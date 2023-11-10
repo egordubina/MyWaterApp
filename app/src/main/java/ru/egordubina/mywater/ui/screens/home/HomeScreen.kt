@@ -44,6 +44,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewDynamicColors
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -154,7 +156,7 @@ fun HomeScreen(uiState: HomeUiState, onAddGlassClick: () -> Unit) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Добавить стакан (250 мл)",
+                text = "Добавить стакан (${uiState.glassVolume} мл)",
                 fontSize = 20.sp,
                 modifier = Modifier.padding(8.dp)
             )
@@ -241,19 +243,6 @@ fun DailyProgress(dayValue: Int, currentValue: Int) {
     }
 }
 
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    MyWaterTheme {
-        HomeScreen(
-            uiState = HomeUiState(
-                dailyWaterValue = 3000,
-                currentWaterValue = 1500
-            )
-        ) {}
-    }
-}
-
 @Composable
 fun HomeScreenActions(navController: NavHostController) {
     val context = LocalContext.current
@@ -266,5 +255,18 @@ fun HomeScreenActions(navController: NavHostController) {
         IconButton(onClick = { navController.navigate(WaterDestination.SETTINGS.name) }) {
             Icon(imageVector = Icons.Rounded.Settings, contentDescription = null)
         }
+    }
+}
+
+@PreviewDynamicColors
+@Composable
+fun HomeScreenPreview() {
+    MyWaterTheme {
+        HomeScreen(
+            uiState = HomeUiState(
+                dailyWaterValue = 3000,
+                currentWaterValue = 1500
+            )
+        ) {}
     }
 }

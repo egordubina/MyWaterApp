@@ -8,32 +8,27 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.egordubina.mywater.domain.usecases.DailyUseCase
-import ru.egordubina.mywater.ui.uistates.HomeUiState
+import ru.egordubina.mywater.ui.uistates.SettingsUiState
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class SettingsViewModel @Inject constructor(
     private val dailyUseCase: DailyUseCase,
 ) : ViewModel() {
     val uiState = combine(
         dailyUseCase.getDailyData(),
-        dailyUseCase.getDailyCurrentData(),
         dailyUseCase.getGlassVolume()
-    ) { daily, current, glassVolume ->
-        HomeUiState(
-            dailyWaterValue = daily,
-            currentWaterValue = current,
-            glassVolume = glassVolume
-        )
+    ) { daily, glassVolume ->
+        SettingsUiState(dailyWaterValue = daily, glassVolume = glassVolume)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = HomeUiState()
+        initialValue = SettingsUiState()
     )
 
-    fun updateCurrentData(data: Int) {
+    fun changeGlassVolume(glassVolume: Int) {
         viewModelScope.launch {
-            dailyUseCase.updateDailyCurrentData(data)
+            dailyUseCase.updateGlassVolume(glassVolume = glassVolume)
         }
     }
 }

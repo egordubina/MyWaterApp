@@ -13,6 +13,7 @@ import ru.egordubina.mywater.ui.screens.home.HomeScreen
 import ru.egordubina.mywater.ui.screens.home.HomeScreenActions
 import ru.egordubina.mywater.ui.screens.settings.SettingsScreen
 import ru.egordubina.mywater.ui.viewmodels.HomeViewModel
+import ru.egordubina.mywater.ui.viewmodels.SettingsViewModel
 
 enum class WaterDestination(@StringRes val title: Int?) {
     HOME(title = null),
@@ -31,10 +32,13 @@ fun WaterNavigation(navController: NavHostController, modifier: Modifier) {
             val uiState = viewModel.uiState.collectAsState()
             HomeScreen(
                 uiState = uiState.value,
-                onAddGlassClick = { viewModel.updateCurrentData(data = uiState.value.currentWaterValue + 250) })
+                onAddGlassClick = { viewModel.updateCurrentData(data = uiState.value.currentWaterValue + uiState.value.glassVolume) }
+            )
         }
         composable(WaterDestination.SETTINGS.name) {
-            SettingsScreen()
+            val viewModel = hiltViewModel<SettingsViewModel>()
+            val uiState = viewModel.uiState.collectAsState()
+            SettingsScreen(uiState = uiState.value, changeGlassVolume = { viewModel.changeGlassVolume(it) })
         }
     }
 }
