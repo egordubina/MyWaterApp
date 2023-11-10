@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0-alpha12"
+agp = "8.3.0-alpha13"
 datastore-preferences = "1.0.0"
 hilt-android-gradle-plugin = "2.48.1"
 hilt-navigation-compose = "1.1.0"
