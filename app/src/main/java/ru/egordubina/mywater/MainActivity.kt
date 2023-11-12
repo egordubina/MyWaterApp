@@ -17,12 +17,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import dagger.hilt.android.AndroidEntryPoint
+import ru.egordubina.mywater.domain.workers.DailyWorker
 import ru.egordubina.mywater.ui.navigation.WaterDestination
 import ru.egordubina.mywater.ui.navigation.WaterNavigation
 import ru.egordubina.mywater.ui.navigation.screenActions
@@ -34,6 +38,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            LaunchedEffect(Unit) {
+                val workRequest = OneTimeWorkRequestBuilder<DailyWorker>().build()
+                WorkManager.getInstance(applicationContext).enqueue(workRequest)
+            }
             val navController = rememberNavController()
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentScreen = WaterDestination.valueOf(

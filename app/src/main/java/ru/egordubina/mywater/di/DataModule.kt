@@ -25,6 +25,6 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideDailyWaterRepository(dataStore: DataStore<Preferences>): DailyRepository =
+    fun provideDailyRepository(dataStore: DataStore<Preferences>): DailyRepository =
         DailyRepositoryImpl(dataStore = dataStore)
 }

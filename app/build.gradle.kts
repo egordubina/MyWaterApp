@@ -67,10 +67,15 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose) // For navigation
+    implementation(libs.androidx.hilt.work) // For workmanager
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // Workmanager
+    implementation(libs.workmanager)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
