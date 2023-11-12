@@ -3,6 +3,7 @@ package ru.egordubina.mywater.ui.screens.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -39,18 +40,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.egordubina.mywater.ui.theme.MyWaterTheme
-import ru.egordubina.mywater.ui.uistates.SettingsUiState
-
-private sealed class SettingsItemUiState {
-    data class DefaultSettingsItemUiState(
-        val icon: ImageVector,
-        val title: String,
-        val subTitle: String?,
-        val action: () -> Unit
-    ) : SettingsItemUiState()
-
-    data class Title(val text: String) : SettingsItemUiState()
-}
+import ru.egordubina.mywater.ui.uistates.settings.SettingsItemUiState
+import ru.egordubina.mywater.ui.uistates.settings.SettingsUiState
 
 @Composable
 fun SettingsScreen(uiState: SettingsUiState, changeGlassVolume: (Int) -> Unit) {
@@ -74,9 +65,20 @@ fun SettingsScreen(uiState: SettingsUiState, changeGlassVolume: (Int) -> Unit) {
             action = { dialogGlassVolumeIsVisible = true }
         ),
     )
-    LazyColumn(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-        items(settingsItems) {
+    LazyColumn(
+        contentPadding = PaddingValues(vertical = 16.dp),
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
+    ) {
+        items(settingsItems) { it ->
             when (it) {
+                is SettingsItemUiState.Title -> Text(
+                    text = it.text,
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+
                 is SettingsItemUiState.DefaultSettingsItemUiState -> {
                     SettingsItem(
                         icon = it.icon,
@@ -86,13 +88,7 @@ fun SettingsScreen(uiState: SettingsUiState, changeGlassVolume: (Int) -> Unit) {
                     )
                 }
 
-                is SettingsItemUiState.Title -> Text(
-                    text = it.text,
-                    fontSize = 18.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
+                is SettingsItemUiState.Slider -> {}
             }
         }
     }

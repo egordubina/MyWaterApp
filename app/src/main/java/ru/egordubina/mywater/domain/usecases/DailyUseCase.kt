@@ -21,7 +21,7 @@ class DailyUseCaseImpl @Inject constructor(
     override fun getGlassVolume(): Flow<Int> = dailyRepository.getGlassVolume()
 
     override suspend fun updateDailyCurrentData(data: Int) {
-        dailyRepository.updateDailyCurrentData(data)
+        dailyRepository.updateDailyCurrentData(data = data)
     }
 
     override suspend fun updateGlassVolume(glassVolume: Int) {

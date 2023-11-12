@@ -13,7 +13,7 @@ class DailyRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : DailyRepository {
     override fun getDailyData(): Flow<Int> = dataStore.data.map {
-        it[intPreferencesKey("WATER DAILY")] ?: 20000
+        it[intPreferencesKey("WATER DAILY")] ?: 3000
     }
 
     override fun getDailyCurrentData(): Flow<Int> = dataStore.data.map {

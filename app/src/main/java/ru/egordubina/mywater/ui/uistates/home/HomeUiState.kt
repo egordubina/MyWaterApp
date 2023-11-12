@@ -1,4 +1,4 @@
-package ru.egordubina.mywater.ui.uistates
+package ru.egordubina.mywater.ui.uistates.home
 
 data class HomeUiState(
     val dailyWaterValue: Int = 0,

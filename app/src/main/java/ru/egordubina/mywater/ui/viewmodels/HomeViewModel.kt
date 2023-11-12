@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.egordubina.mywater.domain.usecases.DailyUseCase
-import ru.egordubina.mywater.ui.uistates.HomeUiState
+import ru.egordubina.mywater.ui.uistates.home.HomeUiState
 import javax.inject.Inject
 
 @HiltViewModel
